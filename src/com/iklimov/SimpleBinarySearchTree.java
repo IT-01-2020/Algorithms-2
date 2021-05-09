@@ -14,6 +14,7 @@ class SimpleBinarySearchTree<T extends Comparable<T>> implements MyTree<T> {
                 if (value.compareTo(currentRoot.getValue()) == 0) {
                     // replace value
                     currentRoot.setValue(value);
+                    break;
                 } else if (value.compareTo(currentRoot.getValue()) < 0) {
                     // go left
                     if (currentRoot.getLeftNode() == null) {
