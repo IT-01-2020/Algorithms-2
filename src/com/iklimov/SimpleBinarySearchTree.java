@@ -1,5 +1,8 @@
 package com.iklimov;
 
+import java.util.ArrayList;
+import java.util.Queue;
+
 class SimpleBinarySearchTree<T extends Comparable<T>> implements MyTree<T> {
     private Node<T> rootNode;
 
@@ -116,8 +119,23 @@ class SimpleBinarySearchTree<T extends Comparable<T>> implements MyTree<T> {
                 // go right
                 currentRoot = currentRoot.getRightNode();
             }
-            loopsMade++;
         }
+    }
+
+    public Iterable<T> getKeys() {
+        ArrayList<T> list = new ArrayList<>();
+        inOrder(rootNode, list);
+        return list;
+    }
+
+    private void inOrder(Node<T> node, ArrayList<T> queue) {
+        if (node == null) {
+            return;
+        }
+
+        inOrder(node.getLeftNode(), queue);
+        queue.add(node.getValue());
+        inOrder(node.getRightNode(), queue);
     }
 
     private Node<T> getRightMostNode(Node<T> node) {

@@ -7,6 +7,17 @@ public class Main {
     private static final Random random = new Random();
 
     public static void main(String[] args) {
+
+        SimpleBinarySearchTree<Integer> map = new SimpleBinarySearchTree<>();
+        map.insert(3);
+        map.insert(7);
+        map.insert(10);
+        map.insert(17);
+        map.insert(12);
+        map.insert(4);
+        map.insert(4);
+        map.getKeys().forEach(System.out::println);
+
         checkInsertionPerformance();
         checkSearchPerformance();
         checkDeletionPerformance();
