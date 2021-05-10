@@ -16,11 +16,14 @@ public class Main {
         map.insert(12);
         map.insert(4);
         map.insert(4);
+
+        map.delete(3);
+        map.delete(12);
         map.getKeys().forEach(System.out::println);
 
-        checkInsertionPerformance();
-        checkSearchPerformance();
-        checkDeletionPerformance();
+//        checkInsertionPerformance();
+//        checkSearchPerformance();
+//        checkDeletionPerformance();
 
     }
 

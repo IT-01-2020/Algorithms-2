@@ -1,7 +1,6 @@
 package com.iklimov;
 
 import java.util.ArrayList;
-import java.util.Queue;
 
 class SimpleBinarySearchTree<T extends Comparable<T>> implements MyTree<T> {
     private Node<T> rootNode;
@@ -43,6 +42,7 @@ class SimpleBinarySearchTree<T extends Comparable<T>> implements MyTree<T> {
         }
     }
 
+    // Hibbard deletion
     @Override
     public void delete(T value) {
         Node<T> currentRoot = rootNode;
@@ -51,47 +51,26 @@ class SimpleBinarySearchTree<T extends Comparable<T>> implements MyTree<T> {
             if (currentRoot == null) {
                 return;
             } else if (currentRoot.getValue().equals(value)) {
-
                 // found a needed node
                 Node<T> myParent = currentRoot.getParent();
-                if (myParent == null) {
-                    // was a root node
-                    if (currentRoot.getLeftNode() == null && currentRoot.getRightNode() == null) {
-                        // had no children
-                        rootNode = null;
-                    } else if (currentRoot.getLeftNode() == null) {
-                        // had no left node
-                        rootNode = currentRoot.getRightNode();
-                        rootNode.setParent(null);
-                    } else if (currentRoot.getRightNode() == null) {
-                        // had no right node
-                        rootNode = currentRoot.getLeftNode();
-                        rootNode.setParent(null);
-                    } else if (currentRoot.getLeftNode() != null && currentRoot.getRightNode() != null) {
-                        // had both children
-                        // make a left node new root
-                        rootNode = currentRoot.getLeftNode();
-                        rootNode.setParent(null);
-                        // place the right node to the very bottom of a new root
-                        Node<T> rightNode = currentRoot.getRightNode();
-                        getRightMostNode(rootNode).setRightNode(rightNode);
-                        rightNode.setParent(getRightMostNode(rootNode));
-                    }
-                } else if (myParent.getLeftNode() != null && myParent.getLeftNode().getValue().equals(currentRoot.getValue())) {
-                    // was a left node
-                    if (currentRoot.getRightNode() != null) {
-                        myParent.setLeftNode(currentRoot.getRightNode());
-                    } else {
-                        myParent.setLeftNode(currentRoot.getLeftNode());
-                    }
-                } else if (myParent.getRightNode() != null && myParent.getRightNode().getValue().equals(currentRoot.getValue())) {
-                    // was a right node
-                    if (currentRoot.getLeftNode() != null) {
-                        myParent.setRightNode(currentRoot.getLeftNode());
-                    } else {
-                        myParent.setRightNode(currentRoot.getRightNode());
-                    }
+                if (currentRoot.getLeftNode() == null && currentRoot.getRightNode() == null) {
+                    // had no children
+                    replaceNodeFrom(myParent, currentRoot, null);
+                } else if (currentRoot.getLeftNode() == null) {
+                    // had no left child. Replace itself with its right child
+                    replaceNodeFrom(myParent, currentRoot, currentRoot.getRightNode());
+                } else if (currentRoot.getRightNode() == null) {
+                    // had no right child. Replace itself with its left child
+                    replaceNodeFrom(myParent, currentRoot, currentRoot.getLeftNode());
+                } else {
+                    // had both children. Replace itself with the the smallest node of its right children
+                    Node<T> toReplaceWith = getLeftMost(currentRoot.getRightNode());
+                    delete(toReplaceWith.getValue());
+                    replaceNodeFrom(myParent, currentRoot, toReplaceWith);
+                    // update links
+                    transferChildren(currentRoot, toReplaceWith);
                 }
+
                 return;
             } else if (value.compareTo(currentRoot.getValue()) < 0) {
                 // go left
@@ -162,6 +141,32 @@ class SimpleBinarySearchTree<T extends Comparable<T>> implements MyTree<T> {
         }
     }
 
+    /**
+     * Replace a nodeToReplace with nodeToReplaceWith, while keeping nodeToReplaceWith's children
+     */
+    private void replaceNodeFrom(Node<T> parent, Node<T> nodeToReplace, Node<T> nodeToReplaceWith) {
+        if (nodeToReplace.getValue() == rootNode.getValue()) {
+            // was a root
+            rootNode = nodeToReplaceWith;
+        } else if (parent.getLeftNode() != null && parent.getLeftNode().getValue() == nodeToReplace.getValue()) {
+            parent.setLeftNode(nodeToReplaceWith);
+        } else if (parent.getRightNode() != null && parent.getRightNode().getValue() == nodeToReplace.getValue()) {
+            parent.setRightNode(nodeToReplaceWith);
+        }
+        // update parent link
+        if (nodeToReplaceWith != null) {
+            nodeToReplace.setParent(parent);
+        }
+    }
+
+    private void transferChildren(Node<T> from, Node<T> to) {
+        if (from.getLeftNode() != null) {
+            to.setLeftNode(from.getLeftNode());
+            from.getLeftNode().setParent(to);
+        }
+        if (from.getRightNode() != null) {
+            to.setRightNode(from.getRightNode());
+            from.getRightNode().setParent(to);
+        }
+    }
 }
-
-
