@@ -1,4 +1,4 @@
-package com.iklimov;
+package com.group1;
 
 public class RedBlackNode<T> {
     private T value;

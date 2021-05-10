@@ -1,4 +1,4 @@
-package com.iklimov;
+package com.group1;
 
 class Node<T extends Comparable<T>> {
     private T value;

@@ -1,4 +1,4 @@
-package com.iklimov;
+package com.group1;
 
 interface MyTree<T extends Comparable<T>> {
     void insert(T value);
