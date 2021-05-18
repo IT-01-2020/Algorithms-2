@@ -14,13 +14,13 @@ class SimpleBinarySearchTree<T extends Comparable<T>> implements MyTree<T> {
 
             while (true) {
                 if (value.compareTo(currentRoot.getValue()) == 0) {
-                    // replace value
+                    // заменить значение
                     currentRoot.setValue(value);
                     break;
                 } else if (value.compareTo(currentRoot.getValue()) < 0) {
-                    // go left
+                    // идем налово
                     if (currentRoot.getLeftNode() == null) {
-                        // insert
+                        // вставить
                         Node<T> newNode = new Node<>(value, null, null, currentRoot);
                         currentRoot.setLeftNode(newNode);
                         break;
@@ -28,9 +28,9 @@ class SimpleBinarySearchTree<T extends Comparable<T>> implements MyTree<T> {
                         currentRoot = currentRoot.getLeftNode();
                     }
                 } else {
-                    // go right
+                    // идем направо
                     if (currentRoot.getRightNode() == null) {
-                        // insert
+                        // вставить
                         Node<T> newNode = new Node<>(value, null, null, currentRoot);
                         currentRoot.setRightNode(newNode);
                         break;
@@ -42,7 +42,7 @@ class SimpleBinarySearchTree<T extends Comparable<T>> implements MyTree<T> {
         }
     }
 
-    // Hibbard deletion
+    // Хиббард удаление
     @Override
     public void delete(T value) {
         Node<T> currentRoot = rootNode;
@@ -51,32 +51,32 @@ class SimpleBinarySearchTree<T extends Comparable<T>> implements MyTree<T> {
             if (currentRoot == null) {
                 return;
             } else if (currentRoot.getValue().equals(value)) {
-                // found a needed node
+                // нашел нужную ячейку
                 Node<T> myParent = currentRoot.getParent();
                 if (currentRoot.getLeftNode() == null && currentRoot.getRightNode() == null) {
-                    // had no children
+                    // не было детей
                     replaceNodeFrom(myParent, currentRoot, null);
                 } else if (currentRoot.getLeftNode() == null) {
-                    // had no left child. Replace itself with its right child
+                    // не было левого ребенка. Заменить себя с правым ребенком
                     replaceNodeFrom(myParent, currentRoot, currentRoot.getRightNode());
                 } else if (currentRoot.getRightNode() == null) {
-                    // had no right child. Replace itself with its left child
+                    // не было правого ребенка. Заменить себя с левым ребенком
                     replaceNodeFrom(myParent, currentRoot, currentRoot.getLeftNode());
                 } else {
-                    // had both children. Replace itself with the the smallest node of its right children
+                    // имел оба ребенка. Заменяем сябя с самым маленькой ячейкой с правых детей
                     Node<T> toReplaceWith = getLeftMost(currentRoot.getRightNode());
                     delete(toReplaceWith.getValue());
                     replaceNodeFrom(myParent, currentRoot, toReplaceWith);
-                    // update links
+                    // обновить ссылки
                     transferChildren(currentRoot, toReplaceWith);
                 }
 
                 return;
             } else if (value.compareTo(currentRoot.getValue()) < 0) {
-                // go left
+                // идем налево
                 currentRoot = currentRoot.getLeftNode();
             } else {
-                // go right
+                // идем направо
                 currentRoot = currentRoot.getRightNode();
             }
         }
@@ -92,10 +92,10 @@ class SimpleBinarySearchTree<T extends Comparable<T>> implements MyTree<T> {
             } else if (currentRoot.getValue().equals(value)) {
                 return true;
             } else if (value.compareTo(currentRoot.getValue()) < 0) {
-                // go left
+                // идем налево
                 currentRoot = currentRoot.getLeftNode();
             } else {
-                // go right
+                // идем направо
                 currentRoot = currentRoot.getRightNode();
             }
         }
@@ -142,18 +142,19 @@ class SimpleBinarySearchTree<T extends Comparable<T>> implements MyTree<T> {
     }
 
     /**
-     * Replace a nodeToReplace with nodeToReplaceWith, while keeping nodeToReplaceWith's children
+     *
+     * Заменяем nodeToReplace с nodeToReplaceWith, сохраняем nodeToReplaceWith родителя
      */
     private void replaceNodeFrom(Node<T> parent, Node<T> nodeToReplace, Node<T> nodeToReplaceWith) {
         if (nodeToReplace.getValue() == rootNode.getValue()) {
-            // was a root
+            // был корень
             rootNode = nodeToReplaceWith;
         } else if (parent.getLeftNode() != null && parent.getLeftNode().getValue() == nodeToReplace.getValue()) {
             parent.setLeftNode(nodeToReplaceWith);
         } else if (parent.getRightNode() != null && parent.getRightNode().getValue() == nodeToReplace.getValue()) {
             parent.setRightNode(nodeToReplaceWith);
         }
-        // update parent link
+        // обновить родителькую ссылку
         if (nodeToReplaceWith != null) {
             nodeToReplace.setParent(parent);
         }
