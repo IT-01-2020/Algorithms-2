@@ -8,7 +8,7 @@ import java.util.NoSuchElementException;
  * Класс реализующий красно-черное дерево на основе
  * интерфейса
  */
-public class Tree<T extends Comparable<T>> implements ITree<T>, Iterable<T>, Iterator<T> {
+public class RedBlackTree<T extends Comparable<T>> implements ITree<T>, Iterable<T>, Iterator<T> {
 
     /**
      * Корень дерева.
@@ -31,7 +31,7 @@ public class Tree<T extends Comparable<T>> implements ITree<T>, Iterable<T>, Ite
     /**
      * Конструктор по-умолчанию.
      */
-    public Tree() {
+    public RedBlackTree() {
         _root = new Node();
         _nil = new Node();
         _nil._color = NodeColor.BLACK;
@@ -42,44 +42,44 @@ public class Tree<T extends Comparable<T>> implements ITree<T>, Iterable<T>, Ite
     }
 
     /**
-     * Статический метод, осуществляюший левый поворот дерева tree относительно узла node.
+     * Статический метод, осуществляюший левый поворот дерева redBlackTree относительно узла node.
      *
-     * @param tree - дерево.
+     * @param redBlackTree - дерево.
      * @param node - узел, относительно которого осущетвляется левый поворот.
      */
-    private static <T extends Comparable<T>> void leftRotate(Tree<T> tree, Tree<T>.Node node) {
-        Tree<T>.Node nodeParent = node.getParent();
-        Tree<T>.Node nodeRight = node.getRight();
-        if (nodeParent != tree._nil) {
+    private static <T extends Comparable<T>> void leftRotate(RedBlackTree<T> redBlackTree, RedBlackTree<T>.Node node) {
+        RedBlackTree<T>.Node nodeParent = node.getParent();
+        RedBlackTree<T>.Node nodeRight = node.getRight();
+        if (nodeParent != redBlackTree._nil) {
             if (nodeParent.getLeft() == node)
                 nodeParent.setLeft(nodeRight);
             else
                 nodeParent.setRight(nodeRight);
         } else {
-            tree._root = nodeRight;
-            tree._root.setParent(tree._nil);
+            redBlackTree._root = nodeRight;
+            redBlackTree._root.setParent(redBlackTree._nil);
         }
         node.setRight(nodeRight.getLeft());
         nodeRight.setLeft(node);
     }
 
     /**
-     * Статический метод, осуществляюший правый поворот дерева tree относительно узла node.
+     * Статический метод, осуществляюший правый поворот дерева redBlackTree относительно узла node.
      *
-     * @param tree - дерево.
+     * @param redBlackTree - дерево.
      * @param node - узел, относительно которого осущетвляется правый поворот.
      */
-    private static <T extends Comparable<T>> void rightRotate(Tree<T> tree, Tree<T>.Node node) {
-        Tree<T>.Node nodeParent = node.getParent();
-        Tree<T>.Node nodeLeft = node.getLeft();
-        if (nodeParent != tree._nil) {
+    private static <T extends Comparable<T>> void rightRotate(RedBlackTree<T> redBlackTree, RedBlackTree<T>.Node node) {
+        RedBlackTree<T>.Node nodeParent = node.getParent();
+        RedBlackTree<T>.Node nodeLeft = node.getLeft();
+        if (nodeParent != redBlackTree._nil) {
             if (nodeParent.getLeft() == node)
                 nodeParent.setLeft(nodeLeft);
             else
                 nodeParent.setRight(nodeLeft);
         } else {
-            tree._root = nodeLeft;
-            tree._root.setParent(tree._nil);
+            redBlackTree._root = nodeLeft;
+            redBlackTree._root.setParent(redBlackTree._nil);
         }
         node.setLeft(nodeLeft.getRight());
         nodeLeft.setRight(node);
@@ -88,27 +88,27 @@ public class Tree<T extends Comparable<T>> implements ITree<T>, Iterable<T>, Ite
     /**
      * Печать дерева.
      *
-     * @param tree - дерево.
+     * @param redBlackTree - дерево.
      */
-    public static <T extends Comparable<T>> void printTree(Tree<T> tree) {
-        ArrayList<Tree<T>.Node> nodes = new ArrayList<Tree<T>.Node>();
-        nodes.add(0, tree._root);
-        printNodes(tree, nodes);
+    public static <T extends Comparable<T>> void printTree(RedBlackTree<T> redBlackTree) {
+        ArrayList<RedBlackTree<T>.Node> nodes = new ArrayList<RedBlackTree<T>.Node>();
+        nodes.add(0, redBlackTree._root);
+        printNodes(redBlackTree, nodes);
     }
 
     /**
      * Печать информации об узле дерева.
      *
-     * @param tree  - ссылка на дерево.
+     * @param redBlackTree  - ссылка на дерево.
      * @param nodes - список узлов на уровне дерева.
      */
-    private static <T extends Comparable<T>> void printNodes(Tree<T> tree, ArrayList<Tree<T>.Node> nodes) {
+    private static <T extends Comparable<T>> void printNodes(RedBlackTree<T> redBlackTree, ArrayList<RedBlackTree<T>.Node> nodes) {
         int childsCounter = 0;
         int nodesAmount = nodes.size();
-        ArrayList<Tree<T>.Node> childs = new ArrayList<Tree<T>.Node>();
+        ArrayList<RedBlackTree<T>.Node> childs = new ArrayList<RedBlackTree<T>.Node>();
 
         for (int i = 0; i < nodesAmount; i++) {
-            if (nodes.get(i) != null && nodes.get(i) != tree._nil) {
+            if (nodes.get(i) != null && nodes.get(i) != redBlackTree._nil) {
                 System.out.print("(" + nodes.get(i).getValue().toString() + "," + nodes.get(i).getColorName() + ")");
                 if (!nodes.get(i).isLeftFree()) {
                     childs.add(nodes.get(i).getLeft());
@@ -127,7 +127,7 @@ public class Tree<T extends Comparable<T>> implements ITree<T>, Iterable<T>, Ite
         System.out.print("\n");
 
         if (childsCounter != 0)
-            printNodes(tree, childs);
+            printNodes(redBlackTree, childs);
     }
 
     /**
@@ -369,7 +369,7 @@ public class Tree<T extends Comparable<T>> implements ITree<T>, Iterable<T>, Ite
     public boolean hasNext() {
         if (_current != null) {
             if (!_isRemoved) {
-                Tree<T>.Node node = _current.getSuccessor();
+                RedBlackTree<T>.Node node = _current.getSuccessor();
                 return (node != null && node != _nil);
             }
             return (_current != null && _current != _nil);
