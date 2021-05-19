@@ -31,11 +31,11 @@ public class Main {
         SimpleBinarySearchTree<Integer> simpleTree = new SimpleBinarySearchTree<>();
 //
         for (int i = 0; i < 100_000; i++) {
-            SimpleBinarySearchTree.add(random.nextInt(1_000_000));
+            simpleTree.add(random.nextInt(1_000_000));
         }
         long start = System.nanoTime();
         simpleTree.remove(random.nextInt(1_000_000));
-        System.out.println("Simple delete took ms: " + (System.nanoTime() - start));
+        System.out.println("Simple delete took ns: " + (System.nanoTime() - start));
 
 
         RedBlackTree<Integer> betterTree = new RedBlackTree<>();
@@ -45,7 +45,7 @@ public class Main {
         }
         start = System.nanoTime();
         betterTree.remove(random.nextInt(1_000_000));
-        System.out.println("Better delete took ms: " + (System.nanoTime() - start));
+        System.out.println("Better delete took ns: " + (System.nanoTime() - start));
     }
 
     private static void checkSearchPerformance() {
@@ -56,7 +56,7 @@ public class Main {
         }
         long start = System.nanoTime();
         boolean contains = simpleTree.contains(5);
-        System.out.println("Simple contains took ms: " + (System.nanoTime() - start));
+        System.out.println("Simple contains took ns: " + (System.nanoTime() - start));
 
 
         RedBlackTree<Integer> betterTree = new RedBlackTree<>();
@@ -66,7 +66,7 @@ public class Main {
         }
         start = System.nanoTime();
         contains = betterTree.contains(5); //(random.nextInt(1_000_000)) != null;
-        System.out.println("Better contains took ms: " + (System.nanoTime() - start));
+        System.out.println("Better contains took ns: " + (System.nanoTime() - start));
     }
 
     private static void checkInsertionPerformance() {
@@ -76,7 +76,7 @@ public class Main {
         for (int i = 0; i < 100_000; i++) {
             simpleTree.add(random.nextInt(1_000_000));
         }
-        System.out.println("Simple insertion took ms: " + (System.nanoTime() - start));
+        System.out.println("Simple insertion took ns: " + (System.nanoTime() - start));
 
 
         start = System.nanoTime();
@@ -85,6 +85,6 @@ public class Main {
         for (int i = 0; i < 100_000; i++) {
             betterTree.add(random.nextInt(1_000_000));
         }
-        System.out.println("Better insertion took ms: " + (System.nanoTime() - start));
+        System.out.println("Better insertion took ns: " + (System.nanoTime() - start));
     }
 }
