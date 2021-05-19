@@ -6,7 +6,7 @@ class SimpleBinarySearchTree<T extends Comparable<T>> implements ITree<T> {
     private Node<T> rootNode;
 
     @Override
-    public void add(T value) {
+    public static void add(T value) {
         if (rootNode == null) {
             rootNode = new Node<T>(value, null, null, null);
         } else {
