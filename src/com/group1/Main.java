@@ -29,7 +29,7 @@ public class Main {
 
     private static void checkDeletionPerformance() {
         SimpleBinarySearchTree<Integer> simpleTree = new SimpleBinarySearchTree<>();
-//
+
         for (int i = 0; i < 100_000; i++) {
             simpleTree.add(random.nextInt(1_000_000));
         }
@@ -50,7 +50,7 @@ public class Main {
 
     private static void checkSearchPerformance() {
         SimpleBinarySearchTree<Integer> simpleTree = new SimpleBinarySearchTree<>();
-//
+
         for (int i = 0; i < 100_000; i++) {
             simpleTree.add(random.nextInt(1_000_000));
         }

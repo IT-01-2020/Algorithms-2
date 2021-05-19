@@ -560,20 +560,6 @@ public class RedBlackTree<T extends Comparable<T>> implements ITree<T>, Iterable
         }
 
         /**
-         * Возвращает "дядю" узла дерева.
-         */
-        public Node getUncle() {
-            Node grand = getGrandfather();
-            if (grand != null) {
-                if (grand._left == _parent)
-                    return grand._right;
-                else if (grand._right == _parent)
-                    return grand._left;
-            }
-            return null;
-        }
-
-        /**
          * Возвращает следующий по значению узел дерева.
          */
         public Node getSuccessor() {
