@@ -51,10 +51,11 @@ public class RedBlackTree<T extends Comparable<T>> implements ITree<T>, Iterable
         RedBlackTree<T>.Node nodeParent = node.getParent();
         RedBlackTree<T>.Node nodeRight = node.getRight();
         if (nodeParent != redBlackTree.nil) {
-            if (nodeParent.getLeft() == node)
+            if (nodeParent.getLeft() == node) {
                 nodeParent.setLeft(nodeRight);
-            else
+            } else {
                 nodeParent.setRight(nodeRight);
+            }
         } else {
             redBlackTree.root = nodeRight;
             redBlackTree.root.setParent(redBlackTree.nil);
@@ -73,10 +74,11 @@ public class RedBlackTree<T extends Comparable<T>> implements ITree<T>, Iterable
         RedBlackTree<T>.Node nodeParent = node.getParent();
         RedBlackTree<T>.Node nodeLeft = node.getLeft();
         if (nodeParent != redBlackTree.nil) {
-            if (nodeParent.getLeft() == node)
+            if (nodeParent.getLeft() == node) {
                 nodeParent.setLeft(nodeLeft);
-            else
+            } else {
                 nodeParent.setRight(nodeLeft);
+            }
         } else {
             redBlackTree.root = nodeLeft;
             redBlackTree.root.setParent(redBlackTree.nil);
@@ -113,21 +115,24 @@ public class RedBlackTree<T extends Comparable<T>> implements ITree<T>, Iterable
                 if (!nodes.get(i).isLeftFree()) {
                     childs.add(nodes.get(i).getLeft());
                     childsCounter++;
-                } else
+                } else {
                     childs.add(null);
+                }
                 if (!nodes.get(i).isRightFree()) {
                     childs.add(nodes.get(i).getRight());
                     childsCounter++;
-                } else
+                } else {
                     childs.add(null);
+                }
             } else {
                 System.out.print("(nil)");
             }
         }
         System.out.print("\n");
 
-        if (childsCounter != 0)
+        if (childsCounter != 0) {
             printNodes(redBlackTree, childs);
+        }
     }
 
     /**
@@ -142,19 +147,21 @@ public class RedBlackTree<T extends Comparable<T>> implements ITree<T>, Iterable
         Node newNode = new Node((T) o, NodeColor.RED);
         while (node != null && node != nil && !node.isFree()) {
             temp = node;
-            if (newNode.getValue().compareTo(node.getValue()) < 0)
+            if (newNode.getValue().compareTo(node.getValue()) < 0) {
                 node = node.getLeft();
-            else
+            } else {
                 node = node.getRight();
+            }
         }
         newNode.setParent(temp);
-        if (temp == nil)
+        if (temp == nil) {
             root.setValue(newNode.getValue());
-        else {
-            if (newNode.getValue().compareTo(temp.getValue()) < 0)
+        } else {
+            if (newNode.getValue().compareTo(temp.getValue()) < 0) {
                 temp.setLeft(newNode);
-            else
+            } else {
                 temp.setRight(newNode);
+            }
         }
         newNode.setLeft(nil);
         newNode.setRight(nil);
@@ -224,32 +231,37 @@ public class RedBlackTree<T extends Comparable<T>> implements ITree<T>, Iterable
     private boolean remove(Node node) {
         Node temp = nil, successor = nil;
 
-        if (node == null || node == nil)
+        if (node == null || node == nil) {
             return false;
+        }
 
-        if (node.isLeftFree() || node.isRightFree())
+        if (node.isLeftFree() || node.isRightFree()) {
             successor = node;
-        else
+        } else {
             successor = node.getSuccessor();
+        }
 
-        if (!successor.isLeftFree())
+        if (!successor.isLeftFree()) {
             temp = successor.getLeft();
-        else
+        } else {
             temp = successor.getRight();
+        }
         temp.setParent(successor.getParent());
 
-        if (successor.isParentFree())
+        if (successor.isParentFree()) {
             root = temp;
-        else if (successor == successor.getParent().getLeft())
+        } else if (successor == successor.getParent().getLeft()) {
             successor.getParent().setLeft(temp);
-        else
+        } else {
             successor.getParent().setRight(temp);
+        }
 
         if (successor != node) {
             node.setValue(successor.getValue());
         }
-        if (successor.isBlack())
+        if (successor.isBlack()) {
             fixRemove(temp);
+        }
         return true;
     }
 
@@ -336,10 +348,11 @@ public class RedBlackTree<T extends Comparable<T>> implements ITree<T>, Iterable
     private Node findNode(T o) {
         Node node = root;
         while (node != null && node != nil && node.getValue().compareTo(o) != 0) {
-            if (node.getValue().compareTo(o) > 0)
+            if (node.getValue().compareTo(o) > 0) {
                 node = node.getLeft();
-            else
+            } else {
                 node = node.getRight();
+            }
         }
         return node;
     }
@@ -352,8 +365,9 @@ public class RedBlackTree<T extends Comparable<T>> implements ITree<T>, Iterable
     private Node first() {
         Node node = root;
         while (node.getLeft() != null && node.getLeft() != nil) {
-            if (!node.isLeftFree())
+            if (!node.isLeftFree()) {
                 node = node.getLeft();
+            }
         }
         return node;
     }
@@ -381,15 +395,17 @@ public class RedBlackTree<T extends Comparable<T>> implements ITree<T>, Iterable
     @Override
     public T next() {
         if (current != null) {
-            if (!isRemoved)
+            if (!isRemoved) {
                 current = current.getSuccessor();
-            else
+            } else {
                 isRemoved = false;
+            }
         } else {
             current = first();
         }
-        if (current == null || current == nil)
+        if (current == null || current == nil) {
             throw new NoSuchElementException();
+        }
         return current.getValue();
     }
 
@@ -398,8 +414,9 @@ public class RedBlackTree<T extends Comparable<T>> implements ITree<T>, Iterable
         if (current != null && !isRemoved) {
             remove(current);
             isRemoved = true;
-        } else
+        } else {
             throw new IllegalStateException();
+        }
     }
 
     /**
@@ -461,19 +478,6 @@ public class RedBlackTree<T extends Comparable<T>> implements ITree<T>, Iterable
             parent = nil;
             left = nil;
             right = nil;
-        }
-
-        /**
-         * Конструктор копий.
-         *
-         * @param node - другой узел.
-         */
-        public Node(Node node) {
-            value = node.value;
-            color = node.color;
-            parent = node.parent;
-            left = node.left;
-            right = node.right;
         }
 
         public boolean isFree() {
@@ -563,12 +567,13 @@ public class RedBlackTree<T extends Comparable<T>> implements ITree<T>, Iterable
          * Возвращает следующий по значению узел дерева.
          */
         public Node getSuccessor() {
-            Node temp = null;
+            Node temp;
             Node node = this;
             if (!node.isRightFree()) {
                 temp = node.getRight();
-                while (!temp.isLeftFree())
+                while (!temp.isLeftFree()) {
                     temp = temp.getLeft();
+                }
                 return temp;
             }
             temp = node.getParent();
