@@ -17,34 +17,34 @@ class Node<T extends Comparable<T>> {
         return value;
     } // Получить значение этого элемента
 
-    public Node<T> setValue(T value) {
+    public Node<T> setValue(T value) { //Установка значчения данного элемента
         this.value = value;
         return this;
     }
 
-    public Node<T> getLeftNode() {
+    public Node<T> getLeftNode() { // Получение ссылки на левого потомка
         return leftNode;
     }
 
-    public Node<T> setLeftNode(Node<T> leftNode) {
+    public Node<T> setLeftNode(Node<T> leftNode) { // Установка ссылки на левого потомка
         this.leftNode = leftNode;
         return this;
     }
 
-    public Node<T> getRightNode() {
+    public Node<T> getRightNode() { // Получение ссылки на правого потомка
         return rightNode;
     }
 
-    public Node<T> setRightNode(Node<T> rightNode) {
+    public Node<T> setRightNode(Node<T> rightNode) { // Установка ссылки на правого потомка
         this.rightNode = rightNode;
         return this;
     }
 
-    public Node<T> getParent() {
+    public Node<T> getParent() { // Получение ссылки на предка
         return parent;
     }
 
-    public Node<T> setParent(Node<T> parent) {
+    public Node<T> setParent(Node<T> parent) { // Установка ссылки на предка
         this.parent = parent;
         return this;
     }
