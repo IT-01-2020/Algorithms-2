@@ -17,7 +17,7 @@ class Node<T extends Comparable<T>> {
         return value;
     } // Получить значение этого элемента
 
-    public Node<T> setValue(T value) { //Установка значчения данного элемента
+    public Node<T> setValue(T value) { //Установка значения данного элемента
         this.value = value;
         return this;
     }
