@@ -54,16 +54,16 @@ class SimpleBinarySearchTree<T extends Comparable<T>> implements ITree<T> {
                 // нашел нужную ячейку
                 Node<T> myParent = currentRoot.getParent();
                 if (currentRoot.getLeftNode() == null && currentRoot.getRightNode() == null) {
-                    // не было детей
+                    // не было потомков
                     replaceNodeFrom(myParent, currentRoot, null);
                 } else if (currentRoot.getLeftNode() == null) {
-                    // не было левого ребенка. Заменить себя с правым ребенком
+                    // не было левого потомка. Заменить себя с правым потомка
                     replaceNodeFrom(myParent, currentRoot, currentRoot.getRightNode());
                 } else if (currentRoot.getRightNode() == null) {
-                    // не было правого ребенка. Заменить себя с левым ребенком
+                    // не было правого потомка. Заменить себя с левым потомком
                     replaceNodeFrom(myParent, currentRoot, currentRoot.getLeftNode());
                 } else {
-                    // имел оба ребенка. Заменяем сeбя с самой маленькой ячейкой с правых детей
+                    // имел обоих потомков. Заменяем текщую с самой маленькой ячейкой правого потомка
                     Node<T> toReplaceWith = getLeftMost(currentRoot.getRightNode());
                     remove(toReplaceWith.getValue());
                     replaceNodeFrom(myParent, currentRoot, toReplaceWith);
