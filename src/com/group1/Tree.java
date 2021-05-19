@@ -8,7 +8,7 @@ import java.util.NoSuchElementException;
  * Класс реализующий красно-черное дерево на основе
  * интерфейса
  */
-public class RedBlackTree<T extends Comparable<T>> implements IRedBlackTree<T>, Iterable<T>, Iterator<T> {
+public class Tree<T extends Comparable<T>> implements ITree<T>, Iterable<T>, Iterator<T> {
 
     /**
      * Корень дерева.
@@ -31,7 +31,7 @@ public class RedBlackTree<T extends Comparable<T>> implements IRedBlackTree<T>, 
     /**
      * Конструктор по-умолчанию.
      */
-    public RedBlackTree() {
+    public Tree() {
         _root = new Node();
         _nil = new Node();
         _nil._color = NodeColor.BLACK;
@@ -47,9 +47,9 @@ public class RedBlackTree<T extends Comparable<T>> implements IRedBlackTree<T>, 
      * @param tree - дерево.
      * @param node - узел, относительно которого осущетвляется левый поворот.
      */
-    private static <T extends Comparable<T>> void leftRotate(RedBlackTree<T> tree, RedBlackTree<T>.Node node) {
-        RedBlackTree<T>.Node nodeParent = node.getParent();
-        RedBlackTree<T>.Node nodeRight = node.getRight();
+    private static <T extends Comparable<T>> void leftRotate(Tree<T> tree, Tree<T>.Node node) {
+        Tree<T>.Node nodeParent = node.getParent();
+        Tree<T>.Node nodeRight = node.getRight();
         if (nodeParent != tree._nil) {
             if (nodeParent.getLeft() == node)
                 nodeParent.setLeft(nodeRight);
@@ -69,9 +69,9 @@ public class RedBlackTree<T extends Comparable<T>> implements IRedBlackTree<T>, 
      * @param tree - дерево.
      * @param node - узел, относительно которого осущетвляется правый поворот.
      */
-    private static <T extends Comparable<T>> void rightRotate(RedBlackTree<T> tree, RedBlackTree<T>.Node node) {
-        RedBlackTree<T>.Node nodeParent = node.getParent();
-        RedBlackTree<T>.Node nodeLeft = node.getLeft();
+    private static <T extends Comparable<T>> void rightRotate(Tree<T> tree, Tree<T>.Node node) {
+        Tree<T>.Node nodeParent = node.getParent();
+        Tree<T>.Node nodeLeft = node.getLeft();
         if (nodeParent != tree._nil) {
             if (nodeParent.getLeft() == node)
                 nodeParent.setLeft(nodeLeft);
@@ -90,8 +90,8 @@ public class RedBlackTree<T extends Comparable<T>> implements IRedBlackTree<T>, 
      *
      * @param tree - дерево.
      */
-    public static <T extends Comparable<T>> void printTree(RedBlackTree<T> tree) {
-        ArrayList<RedBlackTree<T>.Node> nodes = new ArrayList<RedBlackTree<T>.Node>();
+    public static <T extends Comparable<T>> void printTree(Tree<T> tree) {
+        ArrayList<Tree<T>.Node> nodes = new ArrayList<Tree<T>.Node>();
         nodes.add(0, tree._root);
         printNodes(tree, nodes);
     }
@@ -102,10 +102,10 @@ public class RedBlackTree<T extends Comparable<T>> implements IRedBlackTree<T>, 
      * @param tree  - ссылка на дерево.
      * @param nodes - список узлов на уровне дерева.
      */
-    private static <T extends Comparable<T>> void printNodes(RedBlackTree<T> tree, ArrayList<RedBlackTree<T>.Node> nodes) {
+    private static <T extends Comparable<T>> void printNodes(Tree<T> tree, ArrayList<Tree<T>.Node> nodes) {
         int childsCounter = 0;
         int nodesAmount = nodes.size();
-        ArrayList<RedBlackTree<T>.Node> childs = new ArrayList<RedBlackTree<T>.Node>();
+        ArrayList<Tree<T>.Node> childs = new ArrayList<Tree<T>.Node>();
 
         for (int i = 0; i < nodesAmount; i++) {
             if (nodes.get(i) != null && nodes.get(i) != tree._nil) {
@@ -369,7 +369,7 @@ public class RedBlackTree<T extends Comparable<T>> implements IRedBlackTree<T>, 
     public boolean hasNext() {
         if (_current != null) {
             if (!_isRemoved) {
-                RedBlackTree<T>.Node node = _current.getSuccessor();
+                Tree<T>.Node node = _current.getSuccessor();
                 return (node != null && node != _nil);
             }
             return (_current != null && _current != _nil);

@@ -1,13 +1,13 @@
 package com.group1;
 
-public interface IRedBlackTree<T extends Comparable<T>> {
+public interface ITree<T extends Comparable<T>> {
 
     /**
      * Добавить элемент в дерево
      *
-     * @param o
+     * @param value
      */
-    void add(T o);
+    void add(T value);
 
     /**
      * Удалить элемент из дерева

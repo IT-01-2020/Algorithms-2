@@ -2,11 +2,11 @@ package com.group1;
 
 import java.util.ArrayList;
 
-class SimpleBinarySearchTree<T extends Comparable<T>> implements MyTree<T> {
+class SimpleBinarySearchTree<T extends Comparable<T>> implements ITree<T> {
     private Node<T> rootNode;
 
     @Override
-    public void insert(T value) {
+    public void add(T value) {
         if (rootNode == null) {
             rootNode = new Node<T>(value, null, null, null);
         } else {
@@ -44,12 +44,12 @@ class SimpleBinarySearchTree<T extends Comparable<T>> implements MyTree<T> {
 
     // Хиббард удаление
     @Override
-    public void delete(T value) {
+    public boolean remove(T value) {
         Node<T> currentRoot = rootNode;
 
         while (true) {
             if (currentRoot == null) {
-                return;
+                return false;
             } else if (currentRoot.getValue().equals(value)) {
                 // нашел нужную ячейку
                 Node<T> myParent = currentRoot.getParent();
@@ -65,13 +65,13 @@ class SimpleBinarySearchTree<T extends Comparable<T>> implements MyTree<T> {
                 } else {
                     // имел оба ребенка. Заменяем сябя с самым маленькой ячейкой с правых детей
                     Node<T> toReplaceWith = getLeftMost(currentRoot.getRightNode());
-                    delete(toReplaceWith.getValue());
+                    remove(toReplaceWith.getValue());
                     replaceNodeFrom(myParent, currentRoot, toReplaceWith);
                     // обновить ссылки
                     transferChildren(currentRoot, toReplaceWith);
                 }
 
-                return;
+                return true;
             } else if (value.compareTo(currentRoot.getValue()) < 0) {
                 // идем налево
                 currentRoot = currentRoot.getLeftNode();
